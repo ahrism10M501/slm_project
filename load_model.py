@@ -2,10 +2,13 @@ import torch
 from huggingface_hub import snapshot_download
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline, BitsAndBytesConfig
 
+import warnings
+
+warnings.filterwarnings("ignore", message=".*seem to have been set.*")
+
 def download_model(save_path):
     model_id = "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct"
 
-    # 현재 디렉토리의 'exaone_model' 폴더에 다운로드
     snapshot_download(
         repo_id=model_id,
         local_dir=save_path,
@@ -49,7 +52,8 @@ def get_exaone_pipeline(do_download=True):
     pipe = pipeline(
         "text-generation", 
         model=model, 
-        tokenizer=tokenizer)
+        tokenizer=tokenizer
+    )
     
     return pipe
 

@@ -21,7 +21,6 @@ def predict(message, history, system_prompt):
 
     messages.append({"role": "user", "content": message})
 
-    # 1차 추론
     outputs = pipe(
         messages, 
         max_new_tokens=1024, 
@@ -50,6 +49,7 @@ def predict(message, history, system_prompt):
             temperature=0.7,
             top_p=0.9,
         )
+
         final_response = outputs[0]["generated_text"][-1]["content"]
         return final_response
 
