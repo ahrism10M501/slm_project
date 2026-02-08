@@ -1,6 +1,10 @@
 import json
 import re
-from .MyMCP import mcp
+
+try:
+    from .MyMCP import mcp
+except (ImportError, ValueError):
+    from MyMCP import mcp
 
 import os
 import sys
@@ -14,11 +18,11 @@ NAVER_CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
 @mcp.tool()
 def get_naver_news(query: str, display: int = 10):
     """
-        네이버 뉴스를 반환합니다.
-        
-        Args:
-            query (str): 검색어
-            display (int): 반환할 뉴스 수, 기본값은 10
+    네이버 뉴스의 타이틀, 링크, 요약, 출간일자 등을 반환합니다.
+    :param query: 검색어
+    :type query: str
+    :param display: 반환할 뉴스 수, 기본값은 10
+    :type display: int
     
     """
     encText = urllib.parse.quote(query)
@@ -47,3 +51,7 @@ def get_naver_news(query: str, display: int = 10):
         return json.dumps(processed_items, ensure_ascii=False, indent=2)
     else:
         return ("Error Code:" + rescode)
+    
+if __name__ == "__main__":
+    res = get_naver_news("주식", 3)
+    print(res)
